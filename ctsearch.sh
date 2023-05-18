@@ -33,9 +33,10 @@ declare -a ALL_ISSUANCES
 while true; do
     RESPONSE=$(curl -4sX GET --url "${SSLMATE_ENDPOINT}?domain=${DOMAIN_NAME}&match_wildcards=true&expand=dns_names&expand=issuer&expand=revocation${CERT_SHOW}&include_subdomains=true&expand=issuer.caa_domains&after=${AFTER}" -H "Authorization: Bearer ${SSLMATE_TOKEN}")
 
-    # Check if we've hit the rate limit
-    if [[ "$(echo "$RESPONSE" | grep -o 'rate_limited')" = 'rate_limited' ]]; then
-        echo "Rate limit exceeded. Please try again later."
+    # Check if an error is returned from the API
+    ERROR_CODE=$(echo "$RESPONSE" | jq -r '.code?')
+    if [[ ! -z "$ERROR_CODE" ]]; then
+        echo "Error from the API: $(echo "$RESPONSE" | jq -r '.message')"
         exit 1
     fi
 
