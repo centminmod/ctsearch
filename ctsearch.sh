@@ -5,15 +5,17 @@ LIMIT=10
 COUNT=0
 AFTER=''
 CERT_SHOW=''
+SUBDOMAINS=''
 
 # Parse arguments
-while getopts "d:n:certshow" OPTION
+while getopts "d:n:certshow:subdomains" OPTION
 do
     case $OPTION in
         d) DOMAIN_NAME=$OPTARG;;
         n) LIMIT=$OPTARG;;
         certshow) CERT_SHOW='&expand=cert_der';;
-        *) echo "Usage: $0 -d domain [-n limit] [-certshow]" ; exit 1 ;;
+        subdomains) SUBDOMAINS='&include_subdomains=true';;
+        *) echo "Usage: $0 -d domain [-n limit] [-certshow] [-subdomains]" ; exit 1 ;;
     esac
 done
 
@@ -31,7 +33,7 @@ declare -a ALL_ISSUANCES
 
 # Query API with pagination
 while true; do
-    RESPONSE=$(curl -4sX GET --url "${SSLMATE_ENDPOINT}?domain=${DOMAIN_NAME}&match_wildcards=true&expand=dns_names&expand=issuer&expand=revocation${CERT_SHOW}&include_subdomains=true&expand=issuer.caa_domains&after=${AFTER}" -H "Authorization: Bearer ${SSLMATE_TOKEN}")
+    RESPONSE=$(curl -4sX GET --url "${SSLMATE_ENDPOINT}?domain=${DOMAIN_NAME}&match_wildcards=true&expand=dns_names&expand=issuer&expand=revocation${CERT_SHOW}${SUBDOMAINS}&expand=issuer.caa_domains&after=${AFTER}" -H "Authorization: Bearer ${SSLMATE_TOKEN}")
 
     # Check if an error is returned from the API
     ERROR_CODE=$(echo "$RESPONSE" | jq -r '.code?')
