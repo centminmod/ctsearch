@@ -8,14 +8,14 @@ CERT_SHOW=''
 SUBDOMAINS=''
 
 # Parse arguments
-while getopts "d:n:certshow:subdomains" OPTION
+while getopts "d:n:cs" OPTION
 do
     case $OPTION in
         d) DOMAIN_NAME=$OPTARG;;
         n) LIMIT=$OPTARG;;
-        certshow) CERT_SHOW='&expand=cert_der';;
-        subdomains) SUBDOMAINS='&include_subdomains=true';;
-        *) echo "Usage: $0 -d domain [-n limit] [-certshow] [-subdomains]" ; exit 1 ;;
+        c) CERT_SHOW='&expand=cert_der';;
+        s) SUBDOMAINS='&include_s=true';;
+        *) echo "Usage: $0 -d domain [-n limit] [-c] [-s]" ; exit 1 ;;
     esac
 done
 
