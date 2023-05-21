@@ -1,3 +1,5 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/centminmod/ctsearch) ![GitHub contributors](https://img.shields.io/github/contributors/centminmod/ctsearch) ![GitHub Repo stars](https://img.shields.io/github/stars/centminmod/ctsearch) ![GitHub watchers](https://img.shields.io/github/watchers/centminmod/ctsearch) ![GitHub Sponsors](https://img.shields.io/github/sponsors/centminmod) ![GitHub top language](https://img.shields.io/github/languages/top/centminmod/ctsearch) ![GitHub language count](https://img.shields.io/github/languages/count/centminmod/ctsearch)
+
 ```
 ./ctsearch.sh
 Domain name must be provided with -d option.
